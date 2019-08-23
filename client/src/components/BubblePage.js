@@ -4,7 +4,7 @@ import axiosWithAuth from "../utils/axiosWithAuth.js";
 import Bubbles from "./Bubbles";
 import ColorList from "./ColorList";
 
-const BubblePage = () => {
+const BubblePage = (props) => {
   const [colorList, setColorList] = useState([]);
   // fetch your colors data from the server when the component mounts
   // set that data to the colorList state property
@@ -17,8 +17,14 @@ const BubblePage = () => {
       .catch(err => console.log(err));
   }, [])
 
+  const handleLogOut = event => {
+    localStorage.removeItem('token');
+    props.history.push('/')
+  }
+
   return (
     <>
+      <button onClick={handleLogOut}>Log Out</button>
       <ColorList colors={colorList} updateColors={setColorList} />
       <Bubbles colors={colorList} />
     </>

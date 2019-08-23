@@ -41,10 +41,10 @@ const ColorList = ({ colors, updateColors }) => {
     axiosWithAuth()
       .delete(`http://localhost:5000/api/colors/${color.id}`)
       .then(res => {
-        console.log(res.data)
+        // console.log('res.data', res.data)
         // console.log(color.id)
-        // let newColors = colors.filter(c => console.log(c.id))
-        // updateColors(newColors)
+        let newColors = colors.filter(c => res.data !== c.id)
+        updateColors(newColors)
         })
       .catch(err => console.log(err));
   };
@@ -54,7 +54,7 @@ const ColorList = ({ colors, updateColors }) => {
     axiosWithAuth()
       .post(`http://localhost:5000/api/colors`, colorToAdd)
       .then(res => {
-        console.log(res.data)
+        // console.log(res.data)
         updateColors([...colors, colorToAdd])
         setColorToAdd(initialColor)
       })
@@ -68,7 +68,10 @@ const ColorList = ({ colors, updateColors }) => {
         {colors.map(color => (
           <li key={color.color} onClick={() => editColor(color)}>
             <span>
-              <span className="delete" onClick={() => deleteColor(color)}>
+              <span className="delete" onClick={(event) => {
+                event.stopPropagation();
+                deleteColor(color);
+                }}>
                 x
               </span>{" "}
               {color.color}
@@ -107,7 +110,7 @@ const ColorList = ({ colors, updateColors }) => {
           <div className="button-row">
             <button type="submit">save</button>
             <button onClick={() => setEditing(false)}>cancel</button>
-            {/* <button onClick={() => deleteColor(color)}>delete</button> */}
+            <button onClick={deleteColor}>delete</button>
           </div>
         </form>
       )}
