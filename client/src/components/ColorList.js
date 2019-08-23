@@ -40,7 +40,12 @@ const ColorList = ({ colors, updateColors }) => {
     setEditing(false);
     axiosWithAuth()
       .delete(`http://localhost:5000/api/colors/${color.id}`)
-      .then(res => console.log(res.data))
+      .then(res => {
+        console.log(res.data)
+        // console.log(color.id)
+        // let newColors = colors.filter(c => console.log(c.id))
+        // updateColors(newColors)
+        })
       .catch(err => console.log(err));
   };
 
@@ -48,7 +53,10 @@ const ColorList = ({ colors, updateColors }) => {
     event.preventDefault();
     axiosWithAuth()
       .post(`http://localhost:5000/api/colors`, colorToAdd)
-      .then(res => console.log(res.data))
+      .then(res => {
+        console.log(res.data)
+        updateColors([...colors, colorToAdd])
+      })
       .catch(err => console.log(err.response));
   }
 
@@ -98,7 +106,7 @@ const ColorList = ({ colors, updateColors }) => {
           <div className="button-row">
             <button type="submit">save</button>
             <button onClick={() => setEditing(false)}>cancel</button>
-            <button onClick={deleteColor}>delete</button>
+            {/* <button onClick={() => deleteColor(color)}>delete</button> */}
           </div>
         </form>
       )}
@@ -128,6 +136,7 @@ const ColorList = ({ colors, updateColors }) => {
               value={colorToAdd.code.hex}
             />
           </label>
+          <button type='submit'>add</button>
         </form>
       </div>
     </div>
