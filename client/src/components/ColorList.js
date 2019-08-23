@@ -56,6 +56,7 @@ const ColorList = ({ colors, updateColors }) => {
       .then(res => {
         console.log(res.data)
         updateColors([...colors, colorToAdd])
+        setColorToAdd(initialColor)
       })
       .catch(err => console.log(err.response));
   }
@@ -136,7 +137,9 @@ const ColorList = ({ colors, updateColors }) => {
               value={colorToAdd.code.hex}
             />
           </label>
-          <button type='submit'>add</button>
+          <button className='button-row'>
+            <button type='submit'>add</button>
+          </button>
         </form>
       </div>
     </div>
